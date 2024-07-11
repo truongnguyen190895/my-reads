@@ -1,3 +1,5 @@
+import { Book } from "../models";
+
 const api = "https://reactnd-books-api.udacity.com";
 
 let token = localStorage.token;
@@ -17,7 +19,7 @@ export const get = (bookId: string | number) =>
 export const getAll = () =>
   fetch(`${api}/books`, { headers })
     .then((res) => res.json())
-    .then((data) => data.books);
+    .then((data) => data.books as Book[]);
 
 export const update = (book: any, shelf: any) =>
   fetch(`${api}/books/${book.id}`, {

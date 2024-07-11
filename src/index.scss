@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "Avo";
+  src: url("./fonts/UTM\ Avo.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Avo", sans-serif;
+}

@@ -1,0 +1,16 @@
+.home-page-container {
+  .header {
+    height: 80px;
+    background-color: #478ccf;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: sticky;
+    top: 0;
+  }
+
+  .content {
+    height: 110vh;
+  }
+}

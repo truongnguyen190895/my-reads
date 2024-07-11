@@ -1,29 +1,25 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface User {
-  username: string;
-}
-
 interface AuthContextType {
-  user: User | null;
-  login: (userData: User) => void;
+  user: string | null;
+  login: (userData: string) => void;
   logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<User | null>(null);
+  const user = localStorage.getItem("user");
   const navigate = useNavigate();
 
-  const login = (userData: User) => {
-    setUser(userData);
-    navigate("/dashboard");
+  const login = (userData: string) => {
+    localStorage.setItem("user", userData);
+    navigate("/");
   };
 
   const logout = () => {
-    setUser(null);
+    localStorage.removeItem("user");
     navigate("/login");
   };
 

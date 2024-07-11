@@ -1,6 +1,5 @@
 import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
-import { Login } from "../pages/login";
-import { Home } from "../pages/home";
+import { Login, Home, Search } from "../pages";
 import { AuthProvider, useAuth } from "../context/auth";
 
 const ProtectedRoute = () => {
@@ -35,6 +34,9 @@ export const router = createBrowserRouter([
         <ProtectedRoute />
       </AuthProvider>
     ),
-    children: [{ element: <Home />, index: true }],
+    children: [
+      { element: <Home />, index: true },
+      { path: "/search", element: <Search /> },
+    ],
   },
 ]);

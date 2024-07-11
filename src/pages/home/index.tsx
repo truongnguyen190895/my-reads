@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Shelf } from "../../components";
+import { useNavigate } from "react-router-dom";
 import { getAll } from "../../api";
 import { Book } from "../../models";
-import { AddIcon } from "../../components";
+import { AddIcon, Shelf } from "../../components";
 import "./home.style.scss";
 
 export const Home = () => {
+  const navigate = useNavigate();
   const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
@@ -13,6 +14,10 @@ export const Home = () => {
       .then((response) => setBooks(response))
       .catch((error) => console.error("Fail to fetch books ", error));
   }, []);
+
+  const handleNavigateToSearchPage = () => {
+    navigate("/search");
+  };
 
   return (
     <div className="home-page-container">
@@ -33,7 +38,7 @@ export const Home = () => {
           books={books.filter((book) => book.shelf === "read")}
         />
       </div>
-      <div className="add-icon">
+      <div className="add-icon" onClick={handleNavigateToSearchPage}>
         <AddIcon width={80} height={80} />
       </div>
     </div>

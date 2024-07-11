@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Shelf } from "../../components";
 import { getAll } from "../../api";
 import { Book } from "../../models";
+import { AddIcon } from "../../components";
 import "./home.style.scss";
 
 export const Home = () => {
@@ -31,6 +32,9 @@ export const Home = () => {
           title="Read"
           books={books.filter((book) => book.shelf === "read")}
         />
+      </div>
+      <div className="add-icon">
+        <AddIcon width={80} height={80} />
       </div>
     </div>
   );

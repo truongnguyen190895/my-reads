@@ -1,26 +1,59 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowBackIcon } from "../../components";
+import { useDebounce } from "../../hooks";
+import { Book as BookProps } from "../../models";
+import { ArrowBackIcon, SearchBar, Book } from "../../components";
+import { search } from "../../api";
 import "./search.style.scss";
 
 export const Search = () => {
   const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState<string>("");
+  const debouncedSearchTerm = useDebounce(searchValue, 1000);
+  const [results, setResults] = useState<BookProps[]>([]);
+
+  useEffect(() => {
+    if (debouncedSearchTerm) {
+      // Perform the search with debouncedSearchTerm
+      search(debouncedSearchTerm, 100).then((response) => {
+        if (Array.isArray(response)) {
+          setResults(response);
+        } else {
+          setResults([]);
+        }
+      });
+    }
+  }, [debouncedSearchTerm]);
 
   const handleBackToHome = () => {
     navigate("/");
   };
+
+  const handleSearchBook = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
   return (
     <div className="search-container">
       <div className="header">
         <ArrowBackIcon
-          width={80}
-          height={80}
+          width={50}
+          height={50}
           style={{ cursor: "pointer" }}
           onClick={handleBackToHome}
         />
         <h3>Back to Home</h3>
       </div>
-      <h1>Search Page</h1>
+      <div className="search-input">
+        <SearchBar value={searchValue} onChange={handleSearchBook} />
+      </div>
+      <div className="search-result">
+        {results.length > 0 ? (
+          results.map((result) => <Book key={result.title} {...result} />)
+        ) : (
+          <h3>Seems like there's nothing to show</h3>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,0 +1,12 @@
+.search-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  input {
+    height: 40px;
+    width: 500px;
+    font-size: 18px;
+    padding: 0 10px;
+  }
+}

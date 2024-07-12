@@ -41,4 +41,4 @@ export const search = (query: string, maxResults: number) =>
     body: JSON.stringify({ query, maxResults }),
   })
     .then((res) => res.json())
-    .then((data) => data.books);
+    .then((data) => data.books as Book[]);

@@ -16,7 +16,7 @@ export const Shelf = ({ title, books }: ShelveProps) => {
       </div>
       <div className="book-container">
         {books.map((book) => (
-          <Book key={book.title} {...book} />
+          <Book key={book.id} {...book} />
         ))}
       </div>
     </div>

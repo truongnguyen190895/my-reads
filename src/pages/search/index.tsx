@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "../../hooks";
+import { useBook } from "../../context/bookContext";
 import { Book as BookProps } from "../../models";
 import { ArrowBackIcon, SearchBar, Book } from "../../components";
 import { search } from "../../api";
@@ -8,8 +9,9 @@ import "./search.style.scss";
 
 export const Search = () => {
   const navigate = useNavigate();
+  const { books } = useBook();
   const [searchValue, setSearchValue] = useState<string>("");
-  const debouncedSearchTerm = useDebounce(searchValue, 1000);
+  const debouncedSearchTerm = useDebounce(searchValue, 500);
   const [results, setResults] = useState<BookProps[]>([]);
 
   useEffect(() => {
@@ -17,13 +19,19 @@ export const Search = () => {
       // Perform the search with debouncedSearchTerm
       search(debouncedSearchTerm, 100).then((response) => {
         if (Array.isArray(response)) {
-          setResults(response);
+          const finalResult = response.map((incomingBook) => {
+            const matchingBook = (books || []).find(
+              (book) => book.id === incomingBook.id
+            );
+            return matchingBook ? matchingBook : incomingBook;
+          });
+          setResults([...finalResult]);
         } else {
           setResults([]);
         }
       });
     }
-  }, [debouncedSearchTerm]);
+  }, [debouncedSearchTerm, books]);
 
   const handleBackToHome = () => {
     navigate("/");
@@ -49,9 +57,7 @@ export const Search = () => {
       </div>
       <div className="search-result">
         {results.length > 0 ? (
-          results.map((result) => (
-            <Book key={result.title} {...result} onMuteBook={() => {}} />
-          ))
+          results?.map((result) => <Book key={result.id} {...result} />)
         ) : (
           <h3>Seems like there's nothing to show</h3>
         )}

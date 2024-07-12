@@ -1,21 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useBook } from "../../context/bookContext";
 import { Book as BookType } from "../../models";
-import { ArrowDropdownIcon } from "../Icons";
 import { BookAction } from "../BookAction";
+import { ArrowDropdownIcon } from "../Icons";
 import "./book.style.scss";
 
-interface BookProps extends BookType {
-  onMuteBook: (bookId: string, destination: number) => void;
-}
+interface BookProps extends BookType {}
 
-export const Book = ({
-  id,
-  imageLinks,
-  title,
-  authors,
-  shelf,
-  onMuteBook,
-}: BookProps) => {
+export const Book = (props: BookProps) => {
+  const { imageLinks, title, authors, shelf } = props;
+  const navigate = useNavigate();
+  const { updateBook } = useBook();
   const [show, setShow] = useState<boolean>(false);
 
   const handleToggleMenu = (e: any) => {
@@ -23,26 +19,18 @@ export const Book = ({
     setShow((prev) => !prev);
   };
 
-  const parseShelf = () => {
-    switch (shelf) {
-      case "currentlyReading":
-        return 1;
-      case "wantToRead":
-        return 2;
-      case "read":
-        return 3;
-
-      default:
-        return 1;
-    }
+  const handleMoveBook = (destination: string) => {
+    setShow(false);
+    updateBook(props, destination);
+    navigate("/");
   };
 
   return (
     <div className="book-cover-container" onClick={() => setShow(false)}>
       <img src={imageLinks.thumbnail} alt="book-cover" width="100%" />
       <h4>{title}</h4>
-      {authors.map((author) => (
-        <p>{author}</p>
+      {authors?.map((author, index) => (
+        <p key={index}>{author}</p>
       ))}
       <div className="icon-container">
         <ArrowDropdownIcon width={50} height={50} onClick={handleToggleMenu} />
@@ -53,8 +41,8 @@ export const Book = ({
         onClick={(e) => e.stopPropagation()}
       >
         <BookAction
-          activeStatus={parseShelf()}
-          onBookUpdate={(destination) => onMuteBook(id, destination)}
+          activeShelf={shelf}
+          onBookUpdate={(destination) => handleMoveBook(destination)}
         />
       </div>
     </div>

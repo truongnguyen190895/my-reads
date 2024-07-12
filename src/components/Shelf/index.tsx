@@ -1,4 +1,3 @@
-import React from "react";
 import { Book } from "../Book";
 import { Book as BookProps } from "../../models";
 import "./shelf.style.scss";
@@ -6,10 +5,9 @@ import "./shelf.style.scss";
 interface ShelveProps {
   title: string;
   books: BookProps[];
-  onMuteBook: (bookId: string, destination: number) => void;
 }
 
-export const Shelf = ({ title, books, onMuteBook }: ShelveProps) => {
+export const Shelf = ({ title, books }: ShelveProps) => {
   return (
     <div className="shelve-container">
       <div className="shelve-title">
@@ -17,7 +15,7 @@ export const Shelf = ({ title, books, onMuteBook }: ShelveProps) => {
       </div>
       <div className="book-container">
         {books.map((book) => (
-          <Book key={book.id} {...book} onMuteBook={onMuteBook} />
+          <Book key={book.id} {...book} />
         ))}
       </div>
     </div>

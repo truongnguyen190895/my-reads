@@ -1,22 +1,19 @@
 import "./bookAction.style.scss";
 
 interface BookActionProps {
-  activeStatus: number;
-  onBookUpdate: (destination: number) => void;
+  activeShelf: string;
+  onBookUpdate: (destination: string) => void;
 }
 
 const STATUS = [
-  { label: "Currently Reading", value: 1 },
-  { label: "Want to read", value: 2 },
-  { label: "Read", value: 3 },
-  { label: "None", value: 0 },
+  { label: "Currently Reading", value: "currentlyReading" },
+  { label: "Want to read", value: "wantToRead" },
+  { label: "Read", value: "read" },
 ];
 
-export const BookAction = ({ activeStatus, onBookUpdate }: BookActionProps) => {
-  const handleSelectAction = (actionNumber: number) => {
-    if (actionNumber !== activeStatus) {
-      onBookUpdate(actionNumber);
-    }
+export const BookAction = ({ activeShelf, onBookUpdate }: BookActionProps) => {
+  const handleSelectAction = (destinationShelf: string) => {
+    onBookUpdate(destinationShelf);
   };
 
   return (
@@ -25,7 +22,7 @@ export const BookAction = ({ activeStatus, onBookUpdate }: BookActionProps) => {
       {STATUS.map((status) => (
         <p
           key={status.label}
-          className={activeStatus === status.value ? "active" : ""}
+          className={activeShelf === status.value ? "active" : ""}
           onClick={() => handleSelectAction(status.value)}
         >
           {status.label}

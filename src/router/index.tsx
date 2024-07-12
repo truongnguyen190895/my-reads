@@ -1,6 +1,7 @@
-import { createBrowserRouter, Outlet, Navigate } from "react-router-dom";
-import { Login, Home, Search } from "../pages";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { AuthProvider, useAuth } from "../context/auth";
+import { BookProvider } from "../context/bookContext";
+import { Home, Login, Search } from "../pages";
 
 const ProtectedRoute = () => {
   const { user } = useAuth();
@@ -31,7 +32,9 @@ export const router = createBrowserRouter([
     path: "/",
     element: (
       <AuthProvider>
-        <ProtectedRoute />
+        <BookProvider>
+          <ProtectedRoute />
+        </BookProvider>
       </AuthProvider>
     ),
     children: [

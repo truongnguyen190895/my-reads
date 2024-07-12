@@ -19,6 +19,23 @@ export const Home = () => {
     navigate("/search");
   };
 
+  const handleUpdate = (bookId: string, destination: number) => {
+    let targetShelf = "currentlyReading";
+    if (destination !== 1) {
+      targetShelf = destination === 2 ? "wantToRead" : "read";
+    }
+    setBooks((prev) => {
+      const cloneBooks = [...prev];
+      const targetBookPosition = cloneBooks.findIndex(
+        (book) => book.id === bookId
+      );
+      if (targetBookPosition > -1) {
+        cloneBooks[targetBookPosition].shelf = targetShelf;
+      }
+      return cloneBooks;
+    });
+  };
+
   return (
     <div className="home-page-container">
       <div className="header">
@@ -28,14 +45,17 @@ export const Home = () => {
         <Shelf
           title="Currently Reading"
           books={books.filter((book) => book.shelf === "currentlyReading")}
+          onMuteBook={handleUpdate}
         />
         <Shelf
           title="Want to read"
           books={books.filter((book) => book.shelf === "wantToRead")}
+          onMuteBook={handleUpdate}
         />
         <Shelf
           title="Read"
           books={books.filter((book) => book.shelf === "read")}
+          onMuteBook={handleUpdate}
         />
       </div>
       <div className="add-icon" onClick={handleNavigateToSearchPage}>

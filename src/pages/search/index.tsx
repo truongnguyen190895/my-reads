@@ -49,7 +49,9 @@ export const Search = () => {
       </div>
       <div className="search-result">
         {results.length > 0 ? (
-          results.map((result) => <Book key={result.title} {...result} />)
+          results.map((result) => (
+            <Book key={result.title} {...result} onMuteBook={() => {}} />
+          ))
         ) : (
           <h3>Seems like there's nothing to show</h3>
         )}

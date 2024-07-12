@@ -6,9 +6,10 @@ import "./shelf.style.scss";
 interface ShelveProps {
   title: string;
   books: BookProps[];
+  onMuteBook: (bookId: string, destination: number) => void;
 }
 
-export const Shelf = ({ title, books }: ShelveProps) => {
+export const Shelf = ({ title, books, onMuteBook }: ShelveProps) => {
   return (
     <div className="shelve-container">
       <div className="shelve-title">
@@ -16,7 +17,7 @@ export const Shelf = ({ title, books }: ShelveProps) => {
       </div>
       <div className="book-container">
         {books.map((book) => (
-          <Book key={book.id} {...book} />
+          <Book key={book.id} {...book} onMuteBook={onMuteBook} />
         ))}
       </div>
     </div>

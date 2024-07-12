@@ -1,5 +1,5 @@
 export interface Book {
-  id?: string;
+  id: string;
   authors: string[];
   imageLinks: {
     smallThumbnail: string;
